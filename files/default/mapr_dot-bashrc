@@ -1,0 +1,19 @@
+# .bashrc
+#
+# this file was installed by chef
+
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+if [ -d $HOME/.bashrc.d ]; then
+   for s in $HOME/.bashrc.d/*; do
+       if [ -r "$s" ]; then
+	   . "$s"
+       fi
+   done
+fi

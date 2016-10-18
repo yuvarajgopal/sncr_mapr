@@ -1,0 +1,10 @@
+
+#
+# DO NOT EDIT -- this file is managed by chef -- DO NOT EDIT
+#
+
+cluster <%= @cluster_name %>
+
+<% @cluster_nodes.sort.each do |name, services| -%>
+node <%= name %> <%= services %>
+<% end -%>
