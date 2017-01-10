@@ -52,7 +52,7 @@ end
 
 spark_public_dns = nil
 cloud_platform = node['sncr_mapr']['cloudplatform']
-private_ip = #{node["ipaddress"]}"
+private_ip = node['ipaddress']
 print "Private - #{private_ip}"
 print "cloud_platform - #{cloud_platform}"
 
