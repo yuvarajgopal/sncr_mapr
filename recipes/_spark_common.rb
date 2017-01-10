@@ -56,6 +56,7 @@ public_ip = "192.168.1.10"
 private_ip = "192.168.0.22"
 print "Public IP - #{public_ip}"
 print "Private - #{private_ip}"
+print "cloud_platform - #{cloud_platform}"
 
 unless public_ip.nil?
   if cloud_platform == 'aws'
