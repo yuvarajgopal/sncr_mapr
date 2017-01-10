@@ -50,7 +50,7 @@ template "/home/#{mapr_user}/.bashrc.d/spark.sh" do
             })
 end
 
-public_ip = node['cloud']['public_ipv4']
+public_ip = "192.168.1.10"
 private_ip = "192.168.0.22"
 spark_public_dns = nil
 cloud_platform = node['sncr_mapr']['cloudplatform']
