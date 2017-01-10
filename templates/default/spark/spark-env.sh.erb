@@ -59,7 +59,7 @@
 #########################################################################################################
 
 # Set the spark attributes
-export SPARK_HOME=/opt/mapr/spark/spark-1.5.2
+export SPARK_HOME=/opt/mapr/spark/spark-<%= @spark_version %>
 
 # Load the hadoop version attributes
 source $SPARK_HOME/mapr-util/hadoop-version-picker.sh
@@ -79,14 +79,14 @@ MAPR_SPARK_CLASSPATH="`mapr classpath`:$MAPR_HADOOP_CLASSPATH:$MAPR_HADOOP_HBASE
 source $SPARK_HOME/mapr-util/generate-classpath.sh
 
 # Calculate hive jars to include in classpath
-generate_compatible_classpath "spark" "1.5.2" "hive"
+generate_compatible_classpath "spark" "<%= @spark_version %>" "hive"
 MAPR_HIVE_CLASSPATH=${generated_classpath}
 if [ ! -z "$MAPR_HIVE_CLASSPATH" ]; then
   MAPR_SPARK_CLASSPATH="$MAPR_SPARK_CLASSPATH:$MAPR_HIVE_CLASSPATH"
 fi
 
 # Calculate hbase jars to include in classpath
-generate_compatible_classpath "spark" "1.5.2" "hbase"
+generate_compatible_classpath "spark" "<%= @spark_version %>" "hbase"
 MAPR_HBASE_CLASSPATH=${generated_classpath}
 if [ ! -z "$MAPR_HBASE_CLASSPATH" ]; then
   MAPR_SPARK_CLASSPATH="$MAPR_SPARK_CLASSPATH:$MAPR_HBASE_CLASSPATH"

@@ -15,6 +15,7 @@ spark_conf    = "#{spark_homedir}/conf/spark-env.sh"
 
 spark_daemon_memory = node['sncr_mapr']['spark_config']['daemon_memory']
 spark_worker_memory = node['sncr_mapr']['spark_config']['worker_memory']
+spark_mapr_version = node['sncr_mapr']['spark_config']['version']
 
 %w( mapr-spark ).each do |pkg|
   package pkg do
@@ -50,19 +51,20 @@ template "/home/#{mapr_user}/.bashrc.d/spark.sh" do
             })
 end
 
+public_ip = node['cloud']['public_ipv4']
 spark_public_dns = nil
+dashed_ip = "nil"
 cloud_platform = node['sncr_mapr']['cloudplatform']
 private_ip = node['ipaddress']
-print "Private - #{private_ip}"
-print "cloud_platform - #{cloud_platform}"
 
+#unless public_ip.nil?
   if cloud_platform == 'aws'
     public_ip = node['cloud']['public_ipv4']
-    dashed_ip = public_ip.tr(/\./, '-')
     spark_public_dns = "ec2-#{dashed_ip}.compute-1.amazonaws.com"
   else
     spark_public_dns = private_ip
   end
+#end
 
 template spark_conf do
   source 'spark/spark-env.sh.erb'
@@ -71,6 +73,7 @@ template spark_conf do
   mode 0444
   variables({
               daemon_memory: spark_daemon_memory,
+              spark_version: spark_mapr_version,
               worker_memory: spark_worker_memory,
               public_dns: spark_public_dns
             })
