@@ -52,9 +52,8 @@ end
 
 spark_public_dns = nil
 cloud_platform = node['sncr_mapr']['cloudplatform']
-public_ip = "192.168.1.10"
-private_ip = "192.168.0.22"
-print "Public IP - #{public_ip}"
+public_ip = node['cloud']['public_ipv4']
+private_ip = #{node["ipaddress"]}"
 print "Private - #{private_ip}"
 print "cloud_platform - #{cloud_platform}"
 
