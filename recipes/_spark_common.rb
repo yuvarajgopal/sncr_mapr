@@ -51,6 +51,7 @@ template "/home/#{mapr_user}/.bashrc.d/spark.sh" do
 end
 
 public_ip = node['cloud']['public_ipv4']
+private_ip = "192.168.0.22"
 spark_public_dns = nil
 cloud_platform = node['sncr_mapr']['cloudplatform']
 
@@ -59,7 +60,7 @@ unless public_ip.nil?
     dashed_ip = public_ip.tr(/\./, '-')
     spark_public_dns = "ec2-#{dashed_ip}.compute-1.amazonaws.com"
   else
-    spark_public_dns = public_ip
+    spark_public_dns = private_ip
   end
 end
 
