@@ -52,19 +52,17 @@ end
 
 spark_public_dns = nil
 cloud_platform = node['sncr_mapr']['cloudplatform']
-public_ip = node['cloud']['public_ipv4']
 private_ip = #{node["ipaddress"]}"
 print "Private - #{private_ip}"
 print "cloud_platform - #{cloud_platform}"
 
-unless public_ip.nil?
   if cloud_platform == 'aws'
+    public_ip = node['cloud']['public_ipv4']
     dashed_ip = public_ip.tr(/\./, '-')
     spark_public_dns = "ec2-#{dashed_ip}.compute-1.amazonaws.com"
   else
     spark_public_dns = private_ip
   end
-end
 
 template spark_conf do
   source 'spark/spark-env.sh.erb'
