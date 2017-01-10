@@ -51,20 +51,15 @@ template "/home/#{mapr_user}/.bashrc.d/spark.sh" do
             })
 end
 
-public_ip = node['cloud']['public_ipv4']
-spark_public_dns = nil
-dashed_ip = "nil"
 cloud_platform = node['sncr_mapr']['cloudplatform']
 private_ip = node['ipaddress']
 
-#unless public_ip.nil?
   if cloud_platform == 'aws'
     public_ip = node['cloud']['public_ipv4']
     spark_public_dns = "ec2-#{dashed_ip}.compute-1.amazonaws.com"
   else
     spark_public_dns = private_ip
   end
-#end
 
 template spark_conf do
   source 'spark/spark-env.sh.erb'
