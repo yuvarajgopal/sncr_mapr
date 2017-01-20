@@ -12,6 +12,8 @@ mapr_homedir = node['sncr_mapr']['home']
 
 spark_homedir = "#{mapr_homedir}/spark/spark-current"
 spark_conf    = "#{spark_homedir}/conf/spark-env.sh"
+spark_warden_conf    = "#{mapr_homedir}/conf/conf.d/warden.SparkWorker.conf"
+spark_worker_sh    = "#{spark_homedir}/warden/start-worker.sh"
 
 spark_daemon_memory = node['sncr_mapr']['spark_config']['daemon_memory']
 spark_worker_memory = node['sncr_mapr']['spark_config']['worker_memory']
@@ -51,15 +53,34 @@ template "/home/#{mapr_user}/.bashrc.d/spark.sh" do
             })
 end
 
+spark_public_dns = nil
+dashed_ip = "nil"
 cloud_platform = node['sncr_mapr']['cloudplatform']
 private_ip = node['ipaddress']
 
   if cloud_platform == 'aws'
     public_ip = node['cloud']['public_ipv4']
+    dashed_ip = public_ip.gsub(/\./, '-')
     spark_public_dns = "ec2-#{dashed_ip}.compute-1.amazonaws.com"
   else
     spark_public_dns = private_ip
   end
+
+template spark_warden_conf do
+  source 'spark/warden.SparkWorker.conf.erb'
+  owner mapr_user
+  group mapr_user
+  mode 0444
+  notifies :run, 'bash[notify master to restart slave]'
+end
+
+template spark_warden_sh do
+  source 'spark/start-worker.sh.erb'
+  owner mapr_user
+  group mapr_user
+  mode 0444
+  notifies :restart, 'service[mapr-warden]'
+end
 
 template spark_conf do
   source 'spark/spark-env.sh.erb'

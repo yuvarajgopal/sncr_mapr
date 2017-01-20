@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+services=SparkWorker:5
+service.displayname=SparkWorker
+service.heapsize.min=5000
+service.heapsize.max=5000
+service.logs.location=/opt/mapr/spark/spark-current/logs
+service.process.type=JAVA
+service.command.stop=/opt/mapr/spark/spark-current/sbin/stop-slave.sh
+#Need wrapper to identify Spark MAster address
+service.command.start=/opt/mapr/spark/spark-current/warden/start-worker.sh
+service.command.type=BACKGROUND
+service.command.monitorcommand=/opt/mapr/spark/spark-current/sbin/spark-daemon.sh status org.apache.spark.deploy.worker.Worker 1
+service.alarm.tersename=naspark
+service.alarm.label=SPARKWORKERDOWNALARM
