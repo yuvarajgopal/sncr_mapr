@@ -74,7 +74,7 @@ template spark_warden_conf do
   notifies :run, 'bash[notify master to restart slave]'
 end
 
-template spark_warden_sh do
+template spark_worker_sh do
   source 'spark/start-worker.sh.erb'
   owner mapr_user
   group mapr_user
