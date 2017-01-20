@@ -74,6 +74,13 @@ template spark_warden_conf do
   notifies :run, 'bash[notify master to restart slave]'
 end
 
+directory '"#{spark_homedir}/warden' do
+  owner 'mapr'
+  group 'mapr'
+  mode '0755'
+  action :create
+end
+
 template spark_worker_sh do
   source 'spark/start-worker.sh.erb'
   owner mapr_user
