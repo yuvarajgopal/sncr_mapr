@@ -85,7 +85,7 @@ template spark_worker_sh do
   source 'spark/start-worker.sh.erb'
   owner mapr_user
   group mapr_user
-  mode 0444
+  mode 0755
   notifies :restart, 'service[mapr-warden]'
 end
 
